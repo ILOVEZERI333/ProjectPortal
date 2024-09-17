@@ -83,28 +83,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
-@Composable
-fun DemoText(message: String, fontSize: Int){
-    Text(
-        text = message,
-        fontSize = fontSize.sp,
-        fontWeight = FontWeight.Bold,
-        color = Color.White
-    )
-}
 
-
-
-
-
-
-
-@Composable
-fun DemoTextPreview(){
-    FirstComposeProjectTheme {
-        DemoText("hello world", 13)
-    }
-}
 
 
 

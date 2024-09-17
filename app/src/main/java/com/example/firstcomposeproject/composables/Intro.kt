@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
@@ -77,7 +79,7 @@ fun IntroButton(activity: ComponentActivity, homeActivity: Activity){
             val intent = Intent(activity, homeActivity::class.java)
             activity.startActivity(intent)
         },
-        shape = RoundedCornerShape(70f)) { Text("Enter", fontSize = 43.sp) }
+        shape = RoundedCornerShape(70f), colors = ButtonDefaults.buttonColors(Color(188, 230, 227), Color.Black)) { Text("Enter", fontSize = 43.sp) }
     }
 
 }
