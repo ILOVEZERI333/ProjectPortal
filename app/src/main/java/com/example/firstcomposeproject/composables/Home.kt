@@ -1,5 +1,6 @@
 package com.example.firstcomposeproject.composables
 
+import android.inputmethodservice.Keyboard.Row
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,14 +11,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,9 +37,11 @@ import com.example.firstcomposeproject.HomeScreen
 @Composable
 fun HomeScreen(){
 
-    val sharedListContent: SharedListContent = SharedListContent(ListItem(Color.Cyan))
+    val sharedListContent: SharedListContent = SharedListContent(ListItem(Color.Cyan, "asd"))
 
-    Column(modifier = Modifier.fillMaxSize().background(Color(135, 196, 193))) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(Color(135, 196, 193))) {
         HomeText()
         RowOptions(sharedListContent)
         ListOfItems(sharedListContent)
@@ -63,7 +70,11 @@ fun ChangeListContents(listType: ListType, sharedListContent: SharedListContent)
 @Composable
 fun RowOptions(sharedListContent: SharedListContent){
 
-    Row(modifier = Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 20.dp).background(color = Color(red = 178, green = 217, blue = 217)).height(100.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 20.dp, bottom = 20.dp)
+        .background(color = Color(red = 178, green = 217, blue = 217))
+        .height(100.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
         Button(onClick = { ChangeListContents(ListType.Manga, sharedListContent) }, colors = ButtonDefaults.buttonColors(Color(red = 178, green = 217, blue = 217), Color.Black)) { Text("\uD83D\uDCD6\n" + "Manga")}
         Button(onClick = { ChangeListContents(ListType.Music, sharedListContent) }, colors = ButtonDefaults.buttonColors(Color(red = 178, green = 217, blue = 217), Color.Black)) { Text("\uD83C\uDFA7\n" + "Music")}
         Button(onClick = { ChangeListContents(ListType.Pokemon, sharedListContent) }, colors = ButtonDefaults.buttonColors(Color(red = 178, green = 217, blue = 217), Color.Black)) { Text("\uD83D\uDD34\n" + "Pokemon")}
@@ -71,24 +82,33 @@ fun RowOptions(sharedListContent: SharedListContent){
     }
 }
 
+fun LoadMusicContent(){
 
+}
 
 @Composable
-fun ListOfItems(sharedListContent: SharedListContent){
+fun ListOfItems(sharedListContent: SharedListContent) {
 
     val content by sharedListContent.content
 
-    Row(modifier = Modifier.padding(horizontal = 10.dp).padding(top = 10.dp, bottom = 10.dp).fillMaxWidth(0.95f).background(
-        shape = RoundedCornerShape(50f),
-        color = content.Color).height(100.dp)
-    ){
-        Text("asd")
-    }
-    Row(modifier = Modifier.padding(horizontal = 10.dp).padding(top = 10.dp, bottom = 10.dp).fillMaxWidth(0.95f).background(
-        shape = RoundedCornerShape(50f),
-        color = content.Color).height(100.dp)
-    ){
-        Text("asd")
+    var scrollState = rememberScrollState()
+
+
+
+    var rows = remember { mutableStateListOf<ListItem>() }
+
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(scrollState)) {
+
+        rows.forEach { row -> run {
+            Row(
+                modifier = Modifier.padding(vertical = 14.dp, horizontal = 14.dp).background(
+                    sharedListContent.content.value.Color,
+                    shape = RoundedCornerShape(5.dp)
+                ).height(100.dp).fillMaxWidth(0.95f)
+            ) { Text("asd") }
+        } }
     }
 
 }
@@ -97,17 +117,17 @@ enum class ListType {
     Manga, Music, Pokemon, Program
 }
 
-data class ListItem(val Color: Color){
+data class ListItem(val Color: Color, val content: String){
 
 }
 
 class SharedListContent(val listItem: ListItem): ViewModel() {
 
-    private var _content = mutableStateOf(ListItem(Color(144, 212, 195)) )
+    private var _content = mutableStateOf(ListItem(Color(144, 212, 195), "asd") )
     val content: MutableState<ListItem> get() = _content
 
     fun updateData(newData: Color){
-        _content.value = ListItem(newData)
+        _content.value = ListItem(newData, "asd")
     }
 
 
