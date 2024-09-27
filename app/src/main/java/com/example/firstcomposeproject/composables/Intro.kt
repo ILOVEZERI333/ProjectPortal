@@ -2,6 +2,7 @@ package com.example.firstcomposeproject.composables
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutLinearInEasing

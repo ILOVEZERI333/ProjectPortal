@@ -25,13 +25,12 @@ class HomeScreen : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-
-
+        val bearer_token = BuildConfig.KEY
 
         setContent {
             FirstComposeProjectTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeScreen()
+                    HomeScreen(bearer_token)
                 }
             }
         }
